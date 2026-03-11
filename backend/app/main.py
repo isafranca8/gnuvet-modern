@@ -1,8 +1,8 @@
-from app.core.config import settings
-
+from fastapi import FastAPI
 
 from app.database.session import engine, Base
 from app.routes import client_routes
+from app.core.config import settings
 from app.core.exceptions import NotFoundException, not_found_exception_handler
 
 import app.models.client

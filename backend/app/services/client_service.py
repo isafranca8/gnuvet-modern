@@ -1,10 +1,24 @@
+"""
+Service responsável pelas regras de negócio de clientes
+"""
+
 from sqlalchemy.orm import Session
-from app.repository import client_repository
+from app.models.client import Client
+from app.schemas.client_schema import ClientCreate
 
 
-def create_client(db: Session, client_data):
-    return client_repository.create_client(db, client_data)
+def create_client(db: Session, client_data: ClientCreate):
 
+    """
+    Cria cliente no banco
+    """
 
-def list_clients(db: Session):
-    return client_repository.get_clients(db)
+    client = Client(**client_data.model_dump())
+
+    db.add(client)
+
+    db.commit()
+
+    db.refresh(client)
+
+    return client
