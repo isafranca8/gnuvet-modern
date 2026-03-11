@@ -1,0 +1,19 @@
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: gnuvet-db
+
+    environment:
+      POSTGRES_USER: gnuvet
+      POSTGRES_PASSWORD: gnuvet
+      POSTGRES_DB: gnuvet
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
