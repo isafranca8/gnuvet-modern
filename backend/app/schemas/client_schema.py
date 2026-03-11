@@ -1,13 +1,12 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
-class ClientCreate(BaseModel):
+class ClientResponse(BaseModel):
+
+    id: int
     name: str
     phone: str
 
-
-class ClientResponse(ClientCreate):
-    id: int
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(
+        from_attributes=True
+    )
