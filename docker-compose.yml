@@ -3,6 +3,7 @@ services:
   postgres:
     image: postgres:15
     container_name: gnuvet-db
+    restart: always
 
     environment:
       POSTGRES_USER: gnuvet
@@ -14,6 +15,12 @@ services:
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gnuvet"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data:
