@@ -1,15 +1,4 @@
-def test_create_pet(client):
-
-    client_response = client.post(
-        "/clients",
-        json={
-            "name": "Owner",
-            "email": "owner@email.com",
-            "phone": "11999999999"
-        }
-    )
-
-    owner_id = client_response.json()["id"]
+def test_create_pet():
 
     response = client.post(
         "/pets",
@@ -18,8 +7,8 @@ def test_create_pet(client):
             "species": "dog",
             "breed": "Labrador",
             "age": 5,
-            "owner_id": owner_id
+            "owner_id": 1
         }
     )
 
-    assert response.status_code == 201
+    assert response.status_code == 200

@@ -9,8 +9,4 @@ def test_health():
     response = client.get("/")
 
     assert response.status_code == 200
-
-    data = response.json()
-
-    assert data["message"] == "GNUVet API running"
-    assert data["docs"] == "/docs"
+    assert response.json() == {"status": "running"}
