@@ -1,18 +1,26 @@
+"""
+Client Routes
+
+Endpoints relacionados a clientes.
+"""
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from app.database.deps import get_db
+from app.database.session import get_db
+from app.schemas.client_schema import ClientCreate
 from app.services import client_service
-from app.schemas.client_schema import ClientCreate, ClientResponse
 
-router = APIRouter(prefix="/clients", tags=["clients"])
-
-
-@router.get("/")
-def list_clients(db: Session = Depends(get_db)):
-    return client_service.list_clients(db)
+router = APIRouter()
 
 
-@router.post("/")
-def create_client(client: ClientCreate, db: Session = Depends(get_db)):
+@router.post("/", status_code=201)
+def create_client(
+    client: ClientCreate,
+    db: Session = Depends(get_db)
+):
+    """
+    Endpoint para criar cliente.
+    """
+
     return client_service.create_client(db, client)
