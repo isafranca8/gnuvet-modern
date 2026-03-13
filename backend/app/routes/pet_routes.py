@@ -11,7 +11,10 @@ from app.database.session import get_db
 from app.schemas.pet_schema import PetCreate
 from app.services import pet_service
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/pets",
+    tags=["Pets"]
+)
 
 
 @router.post("/", status_code=201)

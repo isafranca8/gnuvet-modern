@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-from app.database.session import Base
-
+from app.database.base import Base
 
 class MedicalRecord(Base):
 

@@ -1,5 +1,6 @@
 """
-Base declarativa usada por todos os models.
+Base declarativa do SQLAlchemy.
+Todos os models devem herdar dela.
 """
 
 from sqlalchemy.orm import DeclarativeBase

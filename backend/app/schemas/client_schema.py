@@ -1,11 +1,19 @@
 """
-Schemas relacionados ao cliente (dono do animal)
+Schemas do Client.
+
+Responsáveis por:
+- validar dados de entrada
+- padronizar resposta da API
 """
 
-from pydantic import BaseModel, Field, EmailStr, ConfigDict
+from pydantic import BaseModel, EmailStr, Field
+from typing import Optional
 
 
-class ClientCreate(BaseModel):
+class ClientBase(BaseModel):
+    """
+    Campos base do cliente.
+    """
 
     name: str = Field(
         min_length=3,
@@ -13,31 +21,41 @@ class ClientCreate(BaseModel):
         description="Nome completo do cliente"
     )
 
+    email: EmailStr
+
     phone: str = Field(
-        pattern=r"^\d{10,15}$",
-        description="Telefone apenas números"
+        min_length=10,
+        max_length=15,
+        description="Telefone do cliente"
     )
 
-    email: EmailStr
+
+class ClientCreate(ClientBase):
+    """
+    Schema usado para criação.
+    """
+    pass
 
 
 class ClientUpdate(BaseModel):
+    """
+    Atualização parcial.
+    """
 
-    name: str | None = None
+    name: Optional[str] = Field(
+        min_length=3,
+        max_length=120
+    )
 
-    phone: str | None = None
-
-    email: EmailStr | None = None
+    phone: Optional[str]
 
 
-class ClientResponse(BaseModel):
+class ClientResponse(ClientBase):
+    """
+    Retorno da API.
+    """
 
     id: int
 
-    name: str
-
-    phone: str
-
-    email: EmailStr
-
-    model_config = ConfigDict(from_attributes=True)
+    class Config:
+        from_attributes = True

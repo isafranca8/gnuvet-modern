@@ -1,38 +1,28 @@
 """
-Database session configuration.
-
-Responsável por:
-- criar engine do SQLAlchemy
-- criar sessão de banco
-- fornecer dependência get_db para FastAPI
+Cria a conexão com o banco de dados.
 """
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import sessionmaker
 
 from app.core.config import settings
 
 
-DATABASE_URL = settings.database_url
+# engine cria conexão com banco
+engine = create_engine(settings.DATABASE_URL)
 
-engine = create_engine(
-    DATABASE_URL,
-    echo=True
-)
-
+# sessão do SQLAlchemy
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
     bind=engine
 )
 
-Base = declarative_base()
-
 
 def get_db():
     """
-    Dependency usada nas rotas FastAPI
-    para obter sessão de banco.
+    Dependency do FastAPI para
+    abrir e fechar sessão automaticamente
     """
 
     db = SessionLocal()

@@ -1,48 +1,28 @@
 """
-Configurações da aplicação GNUVet.
-
-Este arquivo centraliza todas as variáveis de ambiente
-usadas pelo sistema.
-
-Utiliza Pydantic Settings para carregar variáveis
-do arquivo .env automaticamente.
+Arquivo responsável por centralizar
+todas as configurações da aplicação.
 """
 
 from pydantic_settings import BaseSettings
-from pydantic import ConfigDict
 
 
 class Settings(BaseSettings):
 
-    # =============================
-    # APPLICATION
-    # =============================
+    # URL do banco de dados
+    DATABASE_URL: str
 
-    app_name: str = "GNUVet API"
-    app_version: str = "1.0.0"
+    # chave usada para gerar JWT
+    SECRET_KEY: str
 
-    # =============================
-    # DATABASE
-    # =============================
+    # algoritmo do token
+    ALGORITHM: str = "HS256"
 
-    database_url: str = "postgresql://gnuvet:gnuvet@localhost:5433/gnuvet"
+    # tempo de expiração do token
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
 
-    # =============================
-    # SECURITY
-    # =============================
-
-    secret_key: str = "super-secret-key"
-    algorithm: str = "HS256"
-
-    # =============================
-    # PYDANTIC CONFIG
-    # =============================
-
-    model_config = ConfigDict(
-        env_file=".env",
-        extra="ignore"
-    )
+    class Config:
+        env_file = ".env"
 
 
-# instância global das configurações
+# instancia global
 settings = Settings()

@@ -22,11 +22,12 @@ services / domain / repository
 
 import logging
 from contextlib import asynccontextmanager
-
+import app.database.models
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.database.session import Base, engine
+from app.database.base import Base
+from app.database.session import engine
 
 from app.routes import client_routes
 from app.routes import pet_routes
@@ -133,18 +134,8 @@ Registro de rotas da aplicação.
 Cada módulo de rota deve possuir seu próprio router.
 """
 
-app.include_router(
-    client_routes.router,
-    prefix="/clients",
-    tags=["Clients"],
-)
-
-app.include_router(
-    pet_routes.router,
-    prefix="/pets",
-    tags=["Pets"],
-)
-
+app.include_router(client_routes.router)
+app.include_router(pet_routes.router)
 
 # ===============================
 # HEALTH CHECK ENDPOINT
